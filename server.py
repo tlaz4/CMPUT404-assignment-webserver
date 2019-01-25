@@ -31,7 +31,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
     
     def handle(self):
         self.data = self.request.recv(1024).strip()
-        print ("Got a request of: %s\n" % self.data)
+        #print ("Got a request of: %s\n" % self.data)
         parsedRequest = self.parseRequest(self.data)
         
         response = self.respond(parsedRequest)
@@ -56,6 +56,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
         return self.getFile(path)
         
 
+    # simply open file unles IO error
     def getFile(self, path):
         try:
             file = open(path, 'r')
@@ -78,7 +79,9 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
         return parsedRequest
 
+    # Author: unutbu
     #https://stackoverflow.com/questions/3220755/how-to-find-the-target-files-fullabsolute-path-of-the-symbolic-link-or-soft-l
+   
     # make sure www is in file path
     def isInRoot(self, path):
         if "www" not in os.path.realpath(path):
@@ -94,6 +97,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
             return "html"
 
     # respond to request accordingly
+    # is function modular enough? consider future refactoring
     def respond(self, request):
         okResponse = "HTTP/1.1 200 OK\r\n"
         movedResponse = "HTTP/1.1 301 Moved Permanently\r\n"
