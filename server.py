@@ -66,7 +66,8 @@ class MyWebServer(socketserver.BaseRequestHandler):
             return None
 
     # parse all headers and their content, technically not necessary since we only need the request type
-    # and the location
+    # and the location, but for functional sake lets do it
+    # turn request headers into dictionaries
     def parseRequest(self, data):
         parsedRequest = {}
 
@@ -81,7 +82,6 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
     # Author: unutbu
     #https://stackoverflow.com/questions/3220755/how-to-find-the-target-files-fullabsolute-path-of-the-symbolic-link-or-soft-l
-   
     # make sure www is in file path
     def isInRoot(self, path):
         if "www" not in os.path.realpath(path):
